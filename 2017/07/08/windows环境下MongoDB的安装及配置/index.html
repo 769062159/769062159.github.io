@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="MongoDB,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="一、先登录Mongodb官网下载安装包。32、64位的都行。二、安装MongoDB安装比较简单，类似于普通QQ软件，中间主要是选择“Custom”自定义 安装路径修改下：D:\software\MongoDB然后不断“下一步”，安装至结束。 安装比较容易。难点在启动Mongodb的服务以及将MongoDB设置成Windows服务，加配置文件在windows的“服务”中找到。 三、先创建数据库文件的">
+<meta name="keywords" content="MongoDB">
+<meta property="og:type" content="article">
+<meta property="og:title" content="windows环境下MongoDB的安装及配置">
+<meta property="og:url" content="http://yoursite.com/2017/07/08/windows环境下MongoDB的安装及配置/index.html">
+<meta property="og:site_name" content="YuanBQ&#39;s Blog">
+<meta property="og:description" content="一、先登录Mongodb官网下载安装包。32、64位的都行。二、安装MongoDB安装比较简单，类似于普通QQ软件，中间主要是选择“Custom”自定义 安装路径修改下：D:\software\MongoDB然后不断“下一步”，安装至结束。 安装比较容易。难点在启动Mongodb的服务以及将MongoDB设置成Windows服务，加配置文件在windows的“服务”中找到。 三、先创建数据库文件的">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-10-30T11:40:31.254Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="windows环境下MongoDB的安装及配置">
+<meta name="twitter:description" content="一、先登录Mongodb官网下载安装包。32、64位的都行。二、安装MongoDB安装比较简单，类似于普通QQ软件，中间主要是选择“Custom”自定义 安装路径修改下：D:\software\MongoDB然后不断“下一步”，安装至结束。 安装比较容易。难点在启动Mongodb的服务以及将MongoDB设置成Windows服务，加配置文件在windows的“服务”中找到。 三、先创建数据库文件的">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/07/08/windows环境下MongoDB的安装及配置/">
+
+
+
+
+
+  <title>windows环境下MongoDB的安装及配置 | YuanBQ's Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?1153b16293c4deffee98e4e8f4cf6284";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">YuanBQ's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/08/windows环境下MongoDB的安装及配置/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="苑百琦">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="YuanBQ's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">windows环境下MongoDB的安装及配置</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-08T21:50:19+08:00">
+                2017-07-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/07/08/windows环境下MongoDB的安装及配置/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/07/08/windows环境下MongoDB的安装及配置/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="一、先登录Mongodb官网下载安装包。32、64位的都行。"><a href="#一、先登录Mongodb官网下载安装包。32、64位的都行。" class="headerlink" title="一、先登录Mongodb官网下载安装包。32、64位的都行。"></a>一、<a href="https://www.mongodb.com/download-center#community" target="_blank" rel="noopener">先登录Mongodb官网</a>下载安装包。32、64位的都行。</h3><h3 id="二、安装MongoDB"><a href="#二、安装MongoDB" class="headerlink" title="二、安装MongoDB"></a>二、安装MongoDB</h3><p>安装比较简单，类似于普通QQ软件，中间主要是选择“Custom”自定义 安装路径修改下：D:\software\MongoDB然后不断“下一步”，安装至结束。</p>
+<p>安装比较容易。难点在启动Mongodb的服务以及将MongoDB设置成Windows服务，加配置文件在windows的“服务”中找到。</p>
+<h3 id="三、先创建数据库文件的存放位置"><a href="#三、先创建数据库文件的存放位置" class="headerlink" title="三、先创建数据库文件的存放位置"></a>三、先创建数据库文件的存放位置</h3><p>在MongoDB下创建data，在data下再创建db：D:\software\MongoDB\data\db</p>
+<p>因为启动mongodb服务之前需要必须创建数据库文件的存放文件夹，否则命令不会自动创建，而且不能启动成功。</p>
+<h3 id="四、启动MongoDB服务"><a href="#四、启动MongoDB服务" class="headerlink" title="四、启动MongoDB服务"></a>四、启动MongoDB服务</h3><ul>
+<li><p>1.打开cmd命令行</p>
+</li>
+<li><p>2.进入D:\software\MongoDB\bin目录（注意：先输入d:进入d盘，然后输入cd D:\software\MongoDB\bin）</p>
+</li>
+<li><p>3.输入如下的命令启动mongodb服务：mongod –dbpath D:\software\MongoDB\data\db</p>
+</li>
+<li><p>4.在浏览器输入<a href="http://localhost:27017" target="_blank" rel="noopener">http://localhost:27017</a> （27017是mongodb的端口号）查看，若显示：</p>
+</li>
+</ul>
+<hr>
+<p>则表示，连接成功。如果不成功，可以查看端口是否被占用。</p>
+<p>但是在本地windows“服务”中，是没有配置上mongodb 服务的，可以打开“服务”看下</p>
+<h3 id="五、配置本地windows-mongodb-服务"><a href="#五、配置本地windows-mongodb-服务" class="headerlink" title="五、配置本地windows mongodb 服务"></a>五、配置本地windows mongodb 服务</h3><p>这样可设置为 开机自启动，可直接手动启动关闭，可通过命令行net start MongoDB 启动。该配置会大大方便。</p>
+<h4 id="1-先在data文件下创建一个新文件夹log（用来存放日志文件）"><a href="#1-先在data文件下创建一个新文件夹log（用来存放日志文件）" class="headerlink" title="1.先在data文件下创建一个新文件夹log（用来存放日志文件）"></a>1.先在data文件下创建一个新文件夹log（用来存放日志文件）</h4><h4 id="2-在Mongodb新建配置文件mongo-config"><a href="#2-在Mongodb新建配置文件mongo-config" class="headerlink" title="2.在Mongodb新建配置文件mongo.config"></a>2.在Mongodb新建配置文件mongo.config</h4><p>可能很多人都不会创建.config配置文件。那给大家介绍下简单的方法：</p>
+<p>先创建一个mongo.txt文件，再打开，点击”另存为“，将底下的文件类型更改为”全部类型“，并更改文件名称为mongo.config。</p>
+<p>这样就可以创建一个config的配置文件了。</p>
+<h4 id="2-用记事本打开mongo-config-，并输入："><a href="#2-用记事本打开mongo-config-，并输入：" class="headerlink" title="2.用记事本打开mongo.config  ，并输入："></a>2.用记事本打开mongo.config  ，并输入：</h4><p>dbpath=D:\software\MongoDB\data\db</p>
+<p>logpath=D:\software\MongoDB\data\log\mongo.log</p>
+<h4 id="3-用管理员身份打开cmd"><a href="#3-用管理员身份打开cmd" class="headerlink" title="3.用管理员身份打开cmd:"></a>3.用管理员身份打开cmd:</h4><p>可能还有很多人不会管理员身份打开cmd。这也介绍下：</p>
+<p>在下图路径下找到cmd 的运行文件，<br>然后右键，以管理员身份运行。打开后发现在顶端比普通打开的多了”管理员“三个字</p>
+<h4 id="4-配置windows服务："><a href="#4-配置windows服务：" class="headerlink" title="4.配置windows服务："></a>4.配置windows服务：</h4><p>cmd先跳转到 D:\software\MongoDB\bin目录下。</p>
+<p>输入：mongod –config “D:\software\Mongodb\mongo.config” –install –serviceName “MongoDB”</p>
+<p>即根据刚创建的mongo.config配置文件安装服务，名称为MongoDB。</p>
+<p>完成后，再次查看本地的服务。</p>
+<p>如果成功的话，会发现本地服务多了”MongoDB”服务。</p>
+<p>这就大功告成了。哈哈~~~</p>
+<p>可以通过：“开机自启动，可直接手动启动关闭，命令行net start MongoDB 启动”。</p>
+<p>开启后，可以正常连接了</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/MongoDB/" rel="tag"># MongoDB</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/26/jQuery如何编写插件/" rel="next" title="jQuery如何编写插件">
+                <i class="fa fa-chevron-left"></i> jQuery如何编写插件
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/07/29/JavaScript知识点汇总/" rel="prev" title="JavaScript知识点汇总">
+                JavaScript知识点汇总 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpeg" alt="苑百琦">
+            
+              <p class="site-author-name" itemprop="name">苑百琦</p>
+              <p class="site-description motion-element" itemprop="description">纵梦万里，行者无疆！</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、先登录Mongodb官网下载安装包。32、64位的都行。"><span class="nav-number">1.</span> <span class="nav-text">一、先登录Mongodb官网下载安装包。32、64位的都行。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、安装MongoDB"><span class="nav-number">2.</span> <span class="nav-text">二、安装MongoDB</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、先创建数据库文件的存放位置"><span class="nav-number">3.</span> <span class="nav-text">三、先创建数据库文件的存放位置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、启动MongoDB服务"><span class="nav-number">4.</span> <span class="nav-text">四、启动MongoDB服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#五、配置本地windows-mongodb-服务"><span class="nav-number">5.</span> <span class="nav-text">五、配置本地windows mongodb 服务</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-先在data文件下创建一个新文件夹log（用来存放日志文件）"><span class="nav-number">5.1.</span> <span class="nav-text">1.先在data文件下创建一个新文件夹log（用来存放日志文件）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-在Mongodb新建配置文件mongo-config"><span class="nav-number">5.2.</span> <span class="nav-text">2.在Mongodb新建配置文件mongo.config</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-用记事本打开mongo-config-，并输入："><span class="nav-number">5.3.</span> <span class="nav-text">2.用记事本打开mongo.config  ，并输入：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-用管理员身份打开cmd"><span class="nav-number">5.4.</span> <span class="nav-text">3.用管理员身份打开cmd:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-配置windows服务："><span class="nav-number">5.5.</span> <span class="nav-text">4.配置windows服务：</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">苑百琦</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://yuan.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://yoursite.com/2017/07/08/windows环境下MongoDB的安装及配置/';
+          this.page.identifier = '2017/07/08/windows环境下MongoDB的安装及配置/';
+          this.page.title = 'windows环境下MongoDB的安装及配置';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://yuan.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
